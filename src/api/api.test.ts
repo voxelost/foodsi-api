@@ -29,6 +29,10 @@ import {
   updateUserPicture,
   updatePhone,
   updateRestaurantSchedule,
+  validateUserPhone,
+  signOut,
+  removeFromFavourites,
+  restaurantSignOut,
 } from "./api";
 import StatusIndicatingResponseWrapper from "./applover.foodsi/api.model.response/StatusIndicatingResponseWrapper";
 import { Chance } from "chance";
@@ -347,6 +351,52 @@ describe("API method", () => {
       expect(updateRestaurantSchedule("2137")).resolves.toMatchObject(
         expectedResponse
       );
+    });
+  });
+
+  describe("validateUserPhone", () => {
+    it("should return 404", () => {
+      expect(validateUserPhone("meow")).resolves.toContain(
+        "<title>The page you were looking for doesn't exist (404)</title>"
+      );
+    });
+  });
+
+  describe("signOut", () => {
+    it("should sign out", () => {
+      const expectedResponse: StatusIndicatingResponseWrapper<undefined> = {
+        success: true,
+      };
+
+      expect(signOut()).resolves.toMatchObject(expectedResponse);
+    });
+  });
+
+  describe("removeFromFavourites", () => {
+    it("should return 'object not found' for zero ID", () => {
+      const expectedResponse: StatusIndicatingResponseWrapper<undefined> = {
+        errors: "Requested object not found",
+      };
+
+      expect(removeFromFavourites("0")).resolves.toMatchObject(
+        expectedResponse
+      );
+    });
+
+    it("should remove package from favourites", () => {
+      // ?TODO: if this is valid, change the response logic to accept and unmarshal an empty string
+      expect(removeFromFavourites("2137")).rejects.toThrowError(FetchError);
+    });
+  });
+
+  describe("restaurantSignOut", () => {
+    it("should return an API error for non-restaurant user", () => {
+      const expectedResponse: StatusIndicatingResponseWrapper<undefined> = {
+        success: false,
+        errors: ["Użytkownik nie został odnaleziony lub nie jest zalogowany."],
+      };
+
+      expect(restaurantSignOut()).resolves.toMatchObject(expectedResponse);
     });
   });
 });

@@ -166,7 +166,6 @@ const addToFavourites = (restaurantId: number): Promise<any> => {
 };
 
 const updateUserPicture = (): Promise<any> => {
-  // doesn't work for neither v1 nor v2
   const payload: FileDetails = {
     file: "meow",
   };
@@ -389,6 +388,34 @@ const updateRestaurantSchedule = (id: string): Promise<any> => {
     .then((res) => res.json());
 };
 
+const validateUserPhone = (code: string): Promise<any> => {
+  const payload = {
+    code, // TODO: define what peyload this is and save it as a model
+  };
+
+  return api
+    .patch(`/api/v2/users/validate_phone`, payload)
+    .then((res) => res.text());
+};
+
+const signOut = (): Promise<any> => {
+  return api._delete(`/api/v2/auth/sign_out`).then((res) => res.json());
+};
+
+const removeFromFavourites = (restaurantId: string): Promise<any> => {
+  const payload = {
+    restaurant_id: restaurantId,
+  };
+
+  return api
+    ._delete(`/api/v1/users/remove_from_favourites`, payload)
+    .then((res) => res.json());
+};
+
+const restaurantSignOut = (): Promise<any> => {
+  return api._delete("/api/v1/restaurant/sign_out").then((res) => res.json());
+};
+
 export {
   auth,
   signIn,
@@ -408,7 +435,7 @@ export {
   postOrder,
   postRate,
   postDevice,
-  getRestaurantsV1, // !TODO: https://github.com/kacpi2442/am_bot/blob/main/watch_script.py#L281
+  getRestaurantsV1,
   getRestaurantsV2,
   postPasswordPayload,
   postPasswordPayloadRestaurant,
@@ -419,4 +446,8 @@ export {
   updatePassword,
   updatePhone,
   updateRestaurantSchedule,
+  validateUserPhone,
+  signOut,
+  removeFromFavourites,
+  restaurantSignOut,
 };
