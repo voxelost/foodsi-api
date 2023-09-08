@@ -288,7 +288,7 @@ export {
   postOrder,
   postRate,
   postDevice,
-  getRestaurants as getRestaurantsV2,
+  getRestaurants,
   postPasswordPayloadRestaurant,
   signInRestaurant,
   updateUser,

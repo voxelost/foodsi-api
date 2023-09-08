@@ -5,7 +5,7 @@ import {
   collectOrder,
   facebookCallback,
   getRatesReasons,
-  getRestaurantsV2,
+  getRestaurants,
   getUserOrders,
   updatePassword,
   postDevice,
@@ -178,7 +178,7 @@ describe("API method", () => {
 
   describe("getRestaurantsV2", () => {
     it("should work", () => {
-      expect(getRestaurantsV2()).resolves.toMatchObject({
+      expect(getRestaurants()).resolves.toMatchObject({
         total_pages: 0,
         current_page: 0,
         data: [],
