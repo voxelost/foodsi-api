@@ -43,7 +43,7 @@ class API {
   put(url: string, body?: any): Promise<any> {
     return fetch(`https://api.foodsi.pl${url}`, {
       method: "PUT",
-      body: JSON.stringify(body!),
+      body: JSON.stringify(body),
       headers: this.headers,
     });
   }
